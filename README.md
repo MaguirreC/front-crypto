@@ -1,59 +1,147 @@
-# FrontCrypto
+# Crypto Collector - Frontend Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+Frontend de la aplicación Crypto Collector para visualizar información de criptomonedas.
 
-## Development server
+## 📋 Requisitos previos
 
-To start a local development server, run:
+- Node.js 20+ 
+- Docker 
+- Backend corriendo en `http://localhost:8080`
 
+## 🚀 Ejecución Local
+
+### Instalar dependencias
 ```bash
-ng serve
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+### Ejecutar en modo desarrollo
 ```bash
-ng generate component component-name
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+La aplicación estará disponible en `http://localhost:4200`
 
+## 🐳 Ejecución con Docker
+
+### Construir la imagen
 ```bash
-ng generate --help
+npm run docker:build
 ```
 
-## Building
-
-To build the project run:
-
+O directamente:
 ```bash
-ng build
+docker build -t crypto-frontend .
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
+### Ejecutar el contenedor
 ```bash
-ng test
+npm run docker:run
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
+O directamente:
 ```bash
-ng e2e
+docker run -p 4200:4200 crypto-frontend
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Ejecutar con hot-reload (desarrollo)
+```bash
+npm run docker:dev
+```
 
-## Additional Resources
+La aplicación estará disponible en `http://localhost:4200`
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📁 Estructura del proyecto
+
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── login/          # Componente de login
+│   │   └── dashboard/      # Dashboard con tabla de cryptos
+│   ├── services/
+│   │   ├── auth.service.ts       # Servicio de autenticación
+│   │   └── crypto.service.ts     # Servicio de criptomonedas
+│   ├── guards/
+│   │   └── auth-guard.ts         # Guard para rutas protegidas
+│   ├── core/
+│   │   └── interceptors/
+│   │       └── auth.interceptor.ts  # Interceptor JWT
+│   ├── models/
+│   │   ├── auth.model.ts         # Interfaces de autenticación
+│   │   └── crypto.model.ts       # Interfaces de criptomonedas
+│   ├── app.routes.ts             # Configuración de rutas
+│   └── app.config.ts             # Configuración de la app
+└── ...
+```
+
+## 🔐 Autenticación
+
+### Login
+- **Endpoint:** `POST /api/auth/login`
+- **Credenciales de prueba:**
+  - Usuario: `admin1`
+  - Contraseña: `1234`
+
+### Registro
+- **Endpoint:** `POST /api/auth/register`
+- Crea un nuevo usuario
+
+### Token JWT
+El token se almacena en `localStorage` y se envía automáticamente en todas las peticiones mediante un interceptor.
+
+## 📊 Funcionalidades
+
+### Dashboard
+- ✅ Visualización de criptomonedas en tabla
+- ✅ Paginación (10 registros por página)
+- ✅ Búsqueda por nombre o símbolo
+- ✅ Filtrado avanzado por precio y market cap
+- ✅ Ordenamiento por columnas
+- ✅ Sincronización de datos desde API externa
+- ✅ Sistema de alertas (éxito/error/info)
+- ✅ Loader durante sincronización
+
+### Endpoints consumidos
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/crypto/list` | Lista todas las criptomonedas con paginación |
+| GET | `/api/crypto/search` | Busca por nombre o símbolo |
+| GET | `/api/crypto/filter` | Filtra por precio, market cap, etc. |
+| POST | `/api/crypto/sync` | Sincroniza datos desde API externa |
+
+## ⚙️ Configuración
+
+### Variables de entorno
+Puedes modificar la URL del backend en `src/app/services/auth.service.ts` y `src/app/services/crypto.service.ts`:
+
+```typescript
+private apiUrl = 'http://localhost:8080/api/auth';
+```
+
+### Puerto de desarrollo
+Por defecto corre en el puerto `4200`. Para cambiarlo:
+
+```bash
+ng serve --port 4300
+```
+
+## 🛠️ Tecnologías utilizadas
+
+- **Angular 18** - Framework principal
+- **TypeScript** - Lenguaje de programación
+- **RxJS** - Programación reactiva
+- **Angular Router** - Enrutamiento
+- **HttpClient** - Peticiones HTTP
+- **JWT** - Autenticación basada en tokens
+
+
+
+Los archivos compilados estarán en `dist/front-crypto/`
+
+
+### Error de autenticación
+- Verifica que el token JWT sea válido
+- Intenta hacer logout y login nuevamente
+
