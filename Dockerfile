@@ -6,8 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm install -g @angular/cli@18.2.12 && \
-    npm install --legacy-peer-deps && \
-    npm install @angular-devkit/build-angular@18.2.12 --save-dev --legacy-peer-deps
+    npm install --force
 
 
 # Copiar el resto del código

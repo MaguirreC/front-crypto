@@ -24,29 +24,23 @@ La aplicación estará disponible en `http://localhost:4200`
 
 ## 🐳 Ejecución con Docker
 
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/MaguirreC/front-crypto.git
+cd front-crypto
+```
 ### Construir la imagen
 ```bash
 npm run docker:build
 ```
 
-O directamente:
+
 ```bash
 docker build -t crypto-frontend .
 ```
 
-### Ejecutar el contenedor
-```bash
-npm run docker:run
-```
-
-O directamente:
 ```bash
 docker run -p 4200:4200 crypto-frontend
-```
-
-### Ejecutar con hot-reload (desarrollo)
-```bash
-npm run docker:dev
 ```
 
 La aplicación estará disponible en `http://localhost:4200`
